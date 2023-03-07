@@ -7,6 +7,8 @@
  * are set as the default.
  *
  *  source https://www.colby.edu/chemistry/CH331/O2%20Solubility.html
+ *
+ * # currently just run in the terminal
  * */
 
 
@@ -16,9 +18,6 @@ $pressure_array = array  ("100kpa" => 750.06, "140kpa" => 1050.08, "200kpa" => 1
                     "400kpa" => 3000.25, "500kpa" => 3750.31, "600kpa" => 4500.37);
 
 //$solubility= calsolu($temp,$salt,$pressure);
-
-
-
 //$solubilityMessage = "The Solubility is: /n";
 //$solubilityMessage .=    "\n" . $solubility . " uM";
 //$solubilityMessage .=    "\n" . $solug . " mg/l";
@@ -28,8 +27,8 @@ $pressure_array = array  ("100kpa" => 750.06, "140kpa" => 1050.08, "200kpa" => 1
 function calsolu ($temp,$salt,$pressure) {
 
     $tempr = floatval($temp) + 273.15;
-    $first  = -173.9894 + (255.5907*100/floatval($tempr));
-    $second = $first + (146.4813 * log(floatval($tempr)/100)) - (22.204*(floatval($tempr)/100));
+    $first  = -173.9894 + (255.5907*100/$tempr);
+    $second = $first + (146.4813 * log(($tempr)/100)) - (22.204*(floatval($tempr)/100));
     $sal = floatval($salt);
     $third = $second +  $sal*(-0.037362 + 0.016504*$tempr/100-0.0020564*pow($tempr/100,2));
     $fourth = exp($third);
@@ -43,12 +42,11 @@ foreach ($pressure_array as $kpa => $pressure) {
     echo $kpa . "\n";
     for ($temp = 0; $temp <= 30;) {
 
-
     $solubility= calsolu($temp,$salt,$pressure);
     $tempr = floatval($temp) + 273.15;
     $solug = $solubility*32/1000;
     $solum = $solubility*0.000001*0.08206*$tempr*1000;
-    echo $temp . " °C | ". $solug ." \n";
+    echo $temp . " °C | ". $solug ." mg/l \n";
     $temp++;
 } }
 
